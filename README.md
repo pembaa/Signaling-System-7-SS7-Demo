@@ -1,4 +1,3 @@
-# Signaling-System-7-SS7-Demo
 # SS7 Awareness Demo (Offline + Optional ML)
 
 ## Requirements
