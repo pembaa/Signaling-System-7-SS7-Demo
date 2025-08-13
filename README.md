@@ -1,4 +1,4 @@
-# SS7 Awareness Demo (Offline + Optional ML)
+# SS7 Awareness Demo (Educational)
 
 ## Requirements
 - Python 3.8+ and pip
