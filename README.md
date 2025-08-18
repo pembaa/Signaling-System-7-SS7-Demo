@@ -6,7 +6,7 @@
 - Recommended: create a virtual environment
 
 ## Setup (Windows example)
-Open a terminal in the `SS7_DEMO/backend` folder:
+Open a terminal in the `SS7_DEMO/` folder:
 
 1. Create venv (optional)
    ```powershell
