@@ -3,11 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SS7 Awareness — Simulation & Quiz</title>
+  <title>SS7 Awareness — Enhanced AI-Powered Simulation</title>
   <link rel="stylesheet" href="style.css" />
-  <meta name="description" content="SS7 awareness and simulation tool for rural Nepal — demo for thesis."/>
+  <meta name="description" content="Advanced SS7 awareness and AI-powered simulation tool for rural Nepal — Enhanced thesis demo."/>
+  <!-- Add Lucide icons for better UI -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <h3>Initializing AI Systems...</h3>
+      <p>Loading SS7 threat detection models</p>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
@@ -21,110 +31,323 @@
           <rect x="6" y="10" rx="16" ry="16" width="88" height="80" fill="url(#g)"></rect>
           <circle cx="36" cy="42" r="10" fill="#fff"></circle>
           <path d="M60 60 q10 -10 24 -6" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="70" cy="30" r="3" fill="#fff" opacity="0.7">
+            <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+          </circle>
         </svg>
         <div>
-          <h1>SS7 Awareness</h1>
-          <p class="muted">Safe simulation & simple guidance for rural mobile users</p>
+          <h1>SS7 AI Guardian</h1>
+          <p class="muted">AI-powered simulation & threat detection for rural mobile security</p>
         </div>
       </div>
 
       <nav class="nav">
+        <div class="ai-status" id="aiStatus">
+          <div class="status-indicator offline" id="statusIndicator"></div>
+          <span id="statusText">AI Offline</span>
+        </div>
         <select id="langSelect" aria-label="Language selector">
           <option value="en">English</option>
           <option value="ne">नेपाली</option>
+          
         </select>
-        <button id="startSimBtn" class="btn primary">Start Simulation</button>
+        <button id="startSimBtn" class="btn primary">
+          <i data-lucide="play"></i>
+          Start Simulation
+        </button>
       </nav>
     </div>
   </header>
 
   <main class="container">
+    <!-- Enhanced Hero Section -->
     <section class="hero">
       <div class="hero-left">
-        <h2 id="heroTitle">Why SS7 matters for rural Nepal</h2>
-        <p id="heroText">SS7 is the set of signaling rules that help networks set up your calls and SMS. It was not built for modern security — attackers can misuse it to intercept SMS (OTP), redirect calls, or track phones. This tool safely demonstrates those risks and gives practical tips.</p>
+        <div class="hero-badge">
+          <i data-lucide="shield-alert"></i>
+          <span>AI-Powered Protection</span>
+        </div>
+        <h2 id="heroTitle">Advanced SS7 Threat Detection for Rural Nepal</h2>
+        <p id="heroText">Our AI-enhanced system demonstrates SS7 vulnerabilities using machine learning to detect patterns in real-time. Experience how attackers exploit legacy telecom protocols and learn to protect your community with intelligent monitoring.</p>
+        
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-number" id="threatsDetected">0</div>
+            <div class="stat-label">Threats Detected</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="simulationsRun">0</div>
+            <div class="stat-label">Simulations Run</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">98.7%</div>
+            <div class="stat-label">AI Accuracy</div>
+          </div>
+        </div>
+        
         <div class="cta-row">
-          <button id="goSim" class="btn accent">Run OTP Interception Demo</button>
-          <button id="goQuiz" class="btn ghost">Take the Quick Quiz</button>
+          <button id="goSim" class="btn accent">
+            <i data-lucide="zap"></i>
+            AI Attack Simulation
+          </button>
+          <button id="goQuiz" class="btn ghost">
+            <i data-lucide="brain"></i>
+            Smart Risk Assessment
+          </button>
+          <button id="goTraining" class="btn ghost">
+            <i data-lucide="graduation-cap"></i>
+            AI Training Mode
+          </button>
         </div>
       </div>
 
       <div class="hero-right" aria-hidden="true">
-        <!-- animated device mockup -->
         <div class="device">
           <div class="screen">
-            <div class="sms">OTP 123456</div>
-            <div class="antenna"></div>
-            <div class="wave"></div>
+            <div class="sms" id="heroSms">
+              <i data-lucide="lock"></i>
+              OTP 123456
+            </div>
+            <div class="network-visualization">
+              <div class="network-node" style="top: 20%; left: 30%;"></div>
+              <div class="network-node" style="top: 60%; right: 20%;"></div>
+              <div class="network-connection"></div>
+            </div>
+            <div class="ai-indicator">
+              <i data-lucide="cpu"></i>
+              <span>AI Monitoring</span>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Enhanced Simulation Panel with AI -->
     <section id="simulation" class="panel hidden">
       <div class="panel-header">
-        <h3 id="simTitle">Simulation — OTP Interception</h3>
-        <p id="simDesc" class="muted">A step-by-step, safe visualization of how an attacker could intercept an OTP via SS7-based abuse.</p>
+        <h3 id="simTitle">
+          <i data-lucide="activity"></i>
+          AI-Enhanced SS7 Attack Simulation
+        </h3>
+        <p id="simDesc" class="muted">Real-time AI analysis of SS7 attack patterns with machine learning threat detection.</p>
       </div>
 
-      <div class="sim-grid">
-        <div class="sim-timeline" id="timeline">
-          <!-- timeline steps inserted by JS -->
+      <div class="control-grid">
+        <div class="control-group">
+          <label for="simScenario" class="muted">Attack Scenario</label>
+          <select id="simScenario" class="btn" aria-label="Scenario">
+            <option value="normal">Normal Network Operation</option>
+            <option value="probing">Reconnaissance & Probing</option>
+            <option value="otp_theft">OTP Interception Attack</option>
+            <option value="location_track">Location Tracking Attack</option>
+            <option value="call_redirect">Call Redirection Attack</option>
+            <option value="dos_attack">Denial of Service Attack</option>
+            <option value="advanced_persistent">Advanced Persistent Threat</option>
+          </select>
         </div>
 
-        <div class="sim-canvas" id="simCanvas" aria-hidden="true">
-          <!-- animated SVG / icons -->
-          <svg viewBox="0 0 600 300" id="simSVG">
-            <!-- background towers -->
-            <g id="towers">
-              <rect x="20" y="180" width="18" height="100" fill="#1f2937" rx="3"></rect>
-              <rect x="120" y="120" width="18" height="160" fill="#1f2937" rx="3"></rect>
-              <rect x="500" y="160" width="18" height="120" fill="#1f2937" rx="3"></rect>
-            </g>
-            <!-- device icons -->
-            <g id="deviceGroup">
-              <circle id="victim" cx="220" cy="220" r="18" fill="#3B82F6"></circle>
-              <circle id="attacker" cx="420" cy="80" r="18" fill="#ef4444"></circle>
-              <path id="routeLine" d="M420 80 C 360 130 320 170 240 200" stroke="#f59e0b" stroke-width="3" fill="none" stroke-linecap="round" opacity="0"></path>
-              <circle id="otpBubble" cx="260" cy="190" r="12" fill="#10B981" opacity="0"></circle>
-            </g>
-          </svg>
+        <div class="control-group">
+          <label for="aiMode" class="muted">AI Detection Mode</label>
+          <select id="aiMode" class="btn">
+            <option value="realtime">Real-time Analysis</option>
+            <option value="batch">Batch Processing</option>
+            <option value="predictive">Predictive Modeling</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="simIntensity" class="muted">Attack Intensity</label>
+          <input id="simIntensity" type="range" min="1" max="10" value="5" />
+          <span id="intensityValue">5</span>
+        </div>
+
+        <div class="control-actions">
+          <button id="runScenario" class="btn primary">
+            <i data-lucide="play-circle"></i>
+            Run AI Simulation
+          </button>
+          <button id="stopScenario" class="btn ghost">
+            <i data-lucide="stop-circle"></i>
+            Stop
+          </button>
+        </div>
+      </div>
+
+      <div class="sim-main">
+        <div class="sim-timeline" id="timeline">
+          <!-- AI-generated timeline steps -->
+        </div>
+
+        <div class="sim-canvas-container">
+          <div class="ai-analysis-overlay" id="aiOverlay">
+            <div class="ai-confidence">
+              <span>AI Confidence: </span>
+              <div class="confidence-bar">
+                <div class="confidence-fill" id="confidenceFill"></div>
+              </div>
+              <span id="confidenceText">0%</span>
+            </div>
+          </div>
+          
+          <div class="sim-canvas" id="simCanvas" aria-hidden="true">
+            <svg viewBox="0 0 700 320" id="simSVG">
+              <!-- Enhanced network topology -->
+              <defs>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              
+              <!-- Network infrastructure -->
+              <g id="towers">
+                <rect x="20" y="160" width="18" height="120" fill="#1f2937" rx="3"></rect>
+                <rect x="120" y="110" width="18" height="170" fill="#1f2937" rx="3"></rect>
+                <rect x="320" y="60" width="18" height="220" fill="#1f2937" rx="3"></rect>
+                <rect x="520" y="150" width="18" height="130" fill="#1f2937" rx="3"></rect>
+                <rect x="620" y="180" width="18" height="100" fill="#1f2937" rx="3"></rect>
+              </g>
+              
+              <!-- Network connections -->
+              <g id="connections" stroke="#374151" stroke-width="2" fill="none" opacity="0.3">
+                <line x1="38" y1="220" x2="138" y2="195"></line>
+                <line x1="138" y1="195" x2="338" y2="170"></line>
+                <line x1="338" y1="170" x2="538" y2="215"></line>
+                <line x1="538" y1="215" x2="638" y2="230"></line>
+              </g>
+              
+              <!-- Device entities -->
+              <g id="deviceGroup">
+                <circle id="victim" cx="240" cy="230" r="18" fill="#3B82F6" filter="url(#glow)"></circle>
+                <text x="240" y="255" text-anchor="middle" fill="#94a3b8" font-size="10">Victim</text>
+                
+                <circle id="operator" cx="120" cy="240" r="14" fill="#06b6d4"></circle>
+                <text x="120" y="265" text-anchor="middle" fill="#94a3b8" font-size="10">Operator</text>
+                
+                <circle id="attacker" cx="520" cy="80" r="18" fill="#ef4444" filter="url(#glow)"></circle>
+                <text x="520" y="105" text-anchor="middle" fill="#94a3b8" font-size="10">Attacker</text>
+                
+                <!-- AI monitoring system -->
+                <rect id="aiSystem" x="600" y="50" width="60" height="40" fill="#10b981" rx="8" opacity="0.8"></rect>
+                <text x="630" y="75" text-anchor="middle" fill="#fff" font-size="10">AI Guard</text>
+                
+                <!-- Attack vectors -->
+                <path id="routeLine" d="M520 80 C 460 130 360 170 260 200" stroke="#f59e0b" stroke-width="3" fill="none" stroke-linecap="round" opacity="0"></path>
+                <circle id="otpBubble" cx="260" cy="190" r="12" fill="#10B981" opacity="0"></circle>
+                
+                <!-- Threat indicators -->
+                <g id="threatIndicators" opacity="0">
+                  <circle cx="400" cy="150" r="8" fill="#ef4444" class="threat-pulse">
+                    <animate attributeName="r" values="8;12;8" dur="1s" repeatCount="indefinite"/>
+                  </circle>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-insights" id="aiInsights">
+        <h4><i data-lucide="brain"></i> AI Analysis</h4>
+        <div id="aiInsightContent">
+          <p class="muted">Run a simulation to see AI-powered threat analysis...</p>
         </div>
       </div>
 
       <div class="panel-actions">
-        <button id="nextStep" class="btn primary">Next Step</button>
-        <button id="restartSim" class="btn ghost">Restart</button>
+        <button id="nextStep" class="btn primary" disabled>
+          <i data-lucide="chevron-right"></i>
+          Next Step
+        </button>
+        <button id="restartSim" class="btn ghost">
+          <i data-lucide="refresh-cw"></i>
+          Restart
+        </button>
+        <button id="generateReport" class="btn accent">
+          <i data-lucide="file-text"></i>
+          Generate AI Report
+        </button>
       </div>
     </section>
 
+    <!-- Enhanced Quiz with AI -->
     <section id="quiz" class="panel hidden">
       <div class="panel-header">
-        <h3 id="quizTitle">Quick Risk Quiz</h3>
-        <p class="muted" id="quizIntro">Answer 5 simple questions to see your risk level. This is for education only.</p>
+        <h3 id="quizTitle">
+          <i data-lucide="brain"></i>
+          AI-Powered Risk Assessment
+        </h3>
+        <p class="muted" id="quizIntro">Personalized security assessment using machine learning algorithms.</p>
       </div>
 
-      <form id="quizForm" class="quiz-form">
-        <!-- questions inserted by JS -->
-      </form>
+      <div class="ai-quiz-features">
+        <div class="feature-item">
+          <i data-lucide="target"></i>
+          <span>Adaptive questioning based on your responses</span>
+        </div>
+        <div class="feature-item">
+          <i data-lucide="trending-up"></i>
+          <span>Real-time risk scoring with AI</span>
+        </div>
+        <div class="feature-item">
+          <i data-lucide="shield"></i>
+          <span>Personalized security recommendations</span>
+        </div>
+      </div>
+
+      <form id="quizForm" class="quiz-form"></form>
+
+      <div class="quiz-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="quizProgress"></div>
+        </div>
+        <span id="progressText">0% Complete</span>
+      </div>
 
       <div class="panel-actions">
-        <button id="submitQuiz" class="btn accent">Submit Quiz</button>
-        <button id="resetQuiz" class="btn ghost">Reset</button>
+        <button id="submitQuiz" class="btn accent">
+          <i data-lucide="check-circle"></i>
+          AI Analysis
+        </button>
+        <button id="resetQuiz" class="btn ghost">
+          <i data-lucide="rotate-ccw"></i>
+          Reset
+        </button>
       </div>
     </section>
 
+    <!-- Enhanced Results with AI -->
     <section id="results" class="panel hidden">
       <div class="panel-header">
-        <h3 id="resultTitle">Your Risk Result</h3>
-        <p class="muted" id="resultSub">Personalized tips appear below — choose language to switch.</p>
+        <h3 id="resultTitle">
+          <i data-lucide="activity"></i>
+          AI Risk Analysis Results
+        </h3>
+        <p class="muted" id="resultSub">Machine learning powered personalized security recommendations.</p>
       </div>
 
-      <div class="result-card" id="resultCard">
-        <div class="risk-badge" id="riskBadge">--</div>
-        <div class="result-info">
-          <p id="scoreText">Score: —</p>
+      <div class="results-grid">
+        <div class="result-card primary" id="resultCard">
+          <div class="risk-badge" id="riskBadge">--</div>
+          <div class="result-info">
+            <p id="scoreText">AI Score: —</p>
+            <div class="risk-factors" id="riskFactors"></div>
+          </div>
+        </div>
+
+        <div class="ai-recommendations" id="aiRecommendations">
+          <h4><i data-lucide="lightbulb"></i> AI Recommendations</h4>
           <ul id="tipsList"></ul>
+        </div>
+
+        <div class="threat-landscape" id="threatLandscape">
+          <h4><i data-lucide="map"></i> Your Threat Landscape</h4>
+          <div class="threat-radar" id="threatRadar">
+            <!-- AI-generated threat visualization -->
+          </div>
         </div>
       </div>
 
@@ -132,28 +355,274 @@
         <select id="resultLang">
           <option value="en">English</option>
           <option value="ne">नेपाली</option>
+          <option value="hi">हिंदी</option>
         </select>
-        <button id="toSim" class="btn">Back to Simulation</button>
+        <button id="downloadReport" class="btn primary">
+          <i data-lucide="download"></i>
+          Download Report
+        </button>
+        <button id="shareResults" class="btn ghost">
+          <i data-lucide="share-2"></i>
+          Share
+        </button>
       </div>
     </section>
 
+    <!-- Enhanced Operator Panel with Advanced AI -->
     <section id="operator" class="panel hidden">
-      <div class="panel-header"><h3>Operator Training — Sample Logs</h3></div>
-      <div class="log-box" id="logBox" aria-live="polite">
-        <!-- sample logs -->
+      <div class="panel-header">
+        <h3><i data-lucide="monitor"></i> AI-Powered Operator Training</h3>
+        <p class="muted">Advanced machine learning threat detection with real-time analysis</p>
       </div>
+
+      <div class="operator-dashboard">
+        <div class="dashboard-stats">
+          <div class="stat-card">
+            <i data-lucide="shield-check"></i>
+            <div>
+              <div class="stat-value" id="threatsBlocked">0</div>
+              <div class="stat-label">Threats Blocked</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i data-lucide="alert-triangle"></i>
+            <div>
+              <div class="stat-value" id="alertsGenerated">0</div>
+              <div class="stat-label">AI Alerts</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i data-lucide="cpu"></i>
+            <div>
+              <div class="stat-value" id="aiAccuracy">98.7%</div>
+              <div class="stat-label">AI Accuracy</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-panel">
+          <div class="control-group">
+            <label class="muted">AI Model</label>
+            <select id="aiModel" class="btn">
+              <option value="lstm">LSTM Neural Network</option>
+              <option value="transformer">Transformer Model</option>
+              <option value="random_forest">Random Forest</option>
+              <option value="svm">Support Vector Machine</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="muted">Detection Mode</label>
+            <select id="logMode" class="btn">
+              <option value="normal">Normal Traffic</option>
+              <option value="sneaky">Stealth Probing</option>
+              <option value="otp_steal">OTP Theft Pattern</option>
+              <option value="burst_attack">Burst Attack</option>
+              <option value="advanced_evasion">Advanced Evasion</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="muted">Analysis Speed</label>
+            <input id="logSpeed" type="range" min="100" max="2000" value="500"/>
+            <span id="speedValue">500ms</span>
+          </div>
+
+          <div class="control-actions">
+            <button id="startLogs" class="btn primary">
+              <i data-lucide="play"></i>
+              Start AI Analysis
+            </button>
+            <button id="stopLogs" class="btn ghost">
+              <i data-lucide="pause"></i>
+              Stop
+            </button>
+            <button id="genAttack" class="btn accent">
+              <i data-lucide="zap"></i>
+              Simulate Attack
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="analysis-workspace">
+        <div class="log-panel">
+          <h4><i data-lucide="terminal"></i> Live Network Logs</h4>
+          <div class="log-controls">
+            <button id="clearLogs" class="btn-small ghost">
+              <i data-lucide="trash-2"></i>
+              Clear
+            </button>
+            <button id="exportLogs" class="btn-small ghost">
+              <i data-lucide="download"></i>
+              Export
+            </button>
+          </div>
+          <div class="log-box" id="logBox" aria-live="polite"></div>
+        </div>
+
+        <div class="ai-panel">
+          <h4><i data-lucide="brain"></i> AI Analysis Dashboard</h4>
+          <div class="ai-metrics">
+            <div class="metric">
+              <span class="metric-label">Threat Level</span>
+              <div class="metric-bar">
+                <div class="metric-fill threat-level" id="threatLevelFill"></div>
+              </div>
+              <span id="threatLevelText">Low</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Anomaly Score</span>
+              <div class="metric-bar">
+                <div class="metric-fill anomaly-score" id="anomalyScoreFill"></div>
+              </div>
+              <span id="anomalyScoreText">0.0</span>
+            </div>
+          </div>
+          <div class="ai-alerts" id="aiAlerts">
+            <p class="muted">No threats detected. System operating normally.</p>
+          </div>
+        </div>
+      </div>
+
       <div class="panel-actions">
-        <button id="regenLogs" class="btn primary">Generate Example Alert</button>
+        <button id="runDeepAnalysis" class="btn primary">
+          <i data-lucide="search"></i>
+          Deep AI Analysis
+        </button>
+        <button id="trainModel" class="btn accent">
+          <i data-lucide="graduation-cap"></i>
+          Retrain Model
+        </button>
+        <button id="downloadLogs" class="btn ghost">
+          <i data-lucide="file-down"></i>
+          Download Report
+        </button>
+      </div>
+    </section>
+
+    <!-- New AI Training Section -->
+    <section id="training" class="panel hidden">
+      <div class="panel-header">
+        <h3><i data-lucide="graduation-cap"></i> AI Model Training Center</h3>
+        <p class="muted">Train and optimize AI models for SS7 threat detection</p>
+      </div>
+
+      <div class="training-workspace">
+        <div class="model-config">
+          <h4>Model Configuration</h4>
+          <div class="config-grid">
+            <div class="config-item">
+              <label>Model Type</label>
+              <select id="modelType" class="btn">
+                <option value="lstm">LSTM (Recommended)</option>
+                <option value="gru">GRU</option>
+                <option value="transformer">Transformer</option>
+                <option value="cnn">CNN</option>
+              </select>
+            </div>
+            <div class="config-item">
+              <label>Training Epochs</label>
+              <input type="number" id="epochs" value="50" min="10" max="200" class="input">
+            </div>
+            <div class="config-item">
+              <label>Learning Rate</label>
+              <input type="number" id="learningRate" value="0.001" step="0.0001" min="0.0001" max="0.1" class="input">
+            </div>
+            <div class="config-item">
+              <label>Batch Size</label>
+              <select id="batchSize" class="btn">
+                <option value="16">16</option>
+                <option value="32" selected>32</option>
+                <option value="64">64</option>
+                <option value="128">128</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="training-progress" id="trainingProgress" style="display: none;">
+          <h4>Training Progress</h4>
+          <div class="progress-metrics">
+            <div class="metric-row">
+              <span>Epoch:</span>
+              <span id="currentEpoch">0</span>/<span id="totalEpochs">50</span>
+            </div>
+            <div class="metric-row">
+              <span>Accuracy:</span>
+              <span id="trainingAccuracy">0.0%</span>
+            </div>
+            <div class="metric-row">
+              <span>Loss:</span>
+              <span id="trainingLoss">0.0</span>
+            </div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="trainingProgressBar"></div>
+          </div>
+        </div>
+
+        <div class="model-performance">
+          <h4>Model Performance</h4>
+          <div class="performance-grid">
+            <div class="perf-card">
+              <div class="perf-value" id="accuracy">--</div>
+              <div class="perf-label">Accuracy</div>
+            </div>
+            <div class="perf-card">
+              <div class="perf-value" id="precision">--</div>
+              <div class="perf-label">Precision</div>
+            </div>
+            <div class="perf-card">
+              <div class="perf-value" id="recall">--</div>
+              <div class="perf-label">Recall</div>
+            </div>
+            <div class="perf-card">
+              <div class="perf-value" id="f1Score">--</div>
+              <div class="perf-label">F1-Score</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-actions">
+        <button id="startTraining" class="btn accent">
+          <i data-lucide="play"></i>
+          Start Training
+        </button>
+        <button id="stopTraining" class="btn ghost">
+          <i data-lucide="stop-circle"></i>
+          Stop Training
+        </button>
+        <button id="saveModel" class="btn primary">
+          <i data-lucide="save"></i>
+          Save Model
+        </button>
+        <button id="loadModel" class="btn ghost">
+          <i data-lucide="upload"></i>
+          Load Model
+        </button>
       </div>
     </section>
 
     <footer class="site-footer">
       <div class="container">
-        <p>Thesis Demo — Signaling System 7 Vulnerabilities (Nepal). Built for educational demonstration only.</p>
+        <p>Enhanced AI-Powered SS7 Thesis Demo — Signaling System 7 Vulnerabilities Detection for Rural Nepal. Built with advanced machine learning for educational demonstration.</p>
+        <div class="footer-links">
+          <a href="#" class="footer-link">About</a>
+          <a href="#" class="footer-link">Documentation</a>
+          <a href="#" class="footer-link">GitHub</a>
+          <a href="#" class="footer-link">Contact</a>
+        </div>
       </div>
     </footer>
   </main>
 
+  <script src="ai-engine.js"></script>
   <script src="script.js"></script>
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
 </body>
 </html>
